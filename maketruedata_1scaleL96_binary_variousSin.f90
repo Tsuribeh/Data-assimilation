@@ -10,7 +10,7 @@ program maketruedata_binary
     ! Simulation parameters
     ! integer, parameter :: total_inits = 1000  ! アトラクタ上のデータの数
     integer, parameter :: data_span = 5
-    integer, parameter :: n_timesteps = data_span*4*365*10000
+    integer, parameter :: n_timesteps = data_span*4*365*1000
     integer, parameter :: n_savedata = data_span*4*365
 
     integer, parameter :: kmax = 40
