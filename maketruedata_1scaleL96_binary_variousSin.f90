@@ -2,6 +2,8 @@
 program maketruedata_binary
     implicit none
 
+    real(8), parameter :: PI = 4*ATAN (1.d0)
+
     ! Constants for the two-way coupled system
     real(8), parameter :: h = 1.0d0
     real(8), parameter :: b = 10.0d0
@@ -155,7 +157,7 @@ contains
 
         do k = 1, kmax
             model(k) = X1(modulo(k - 2, kmax) + 1) * (X1(modulo(k, kmax) + 1) - X1(modulo(k - 3, kmax) + 1))  &
-                       - X1(k) + F_ex + A * sin(B * t)
+                       - X1(k) + F_ex + A * sin(2.0d0 * PI * B * t)
         end do
     end subroutine model_nature_1
 
