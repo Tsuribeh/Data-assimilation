@@ -12,15 +12,14 @@ program maketruedata_binary
     ! Simulation parameters
     ! integer, parameter :: total_inits = 1000  ! アトラクタ上のデータの数
     integer, parameter :: data_span = 5
-
+    integer, parameter :: n_timesteps = data_span*4*365*100  !6時間ごとのデータなので1日4つ。スピンアップは99年
+    integer, parameter :: n_savedata = data_span*4*365
     integer, parameter :: kmax = 40
     integer, parameter :: jmax = 0
     real(8), parameter :: F_ex = 8.d0
     real(8), parameter :: dt = 1.0d-2
+    real(8), parameter :: ADAY = data_span * 4 * dt
 
-    integer, parameter :: ADAY = data_span*4
-    integer, parameter :: n_timesteps = ADAY*365*100
-    integer, parameter :: n_savedata = ADAY*365
 
     ! Variables for storing x1, x2 data and selected random initial condition
     real(8) :: x1_true(kmax)
