@@ -12,8 +12,9 @@ program maketruedata_binary
     ! Simulation parameters
     ! integer, parameter :: total_inits = 1000  ! アトラクタ上のデータの数
     integer, parameter :: data_span = 5
-    integer, parameter :: n_timesteps = data_span*4*365*1000
-    integer, parameter :: n_savedata = data_span*4*365
+    integer, parameter :: ADAY = data_span*4
+    integer, parameter :: n_timesteps = ADAY*365*100
+    integer, parameter :: n_savedata = ADAY*365
 
     integer, parameter :: kmax = 40
     integer, parameter :: jmax = 0
@@ -27,8 +28,8 @@ program maketruedata_binary
     ! real(8) :: random_num
     ! integer :: random_index
     ! integer :: i, j, iostat, jmaxkmax
-    integer :: n
-    integer :: Ampli, Freq
+    integer :: l,m,n
+    real(8) :: Ampli, Period, Freq
 
     ! Initialize state variables
     real(8) :: t
@@ -52,8 +53,8 @@ program maketruedata_binary
 
     open(iunit_t, file="1scalePlusSinVarious_t_truedata_fort_50span.bin", form='unformatted', access='stream', status="replace")
 
-    do Ampli = -4, 4
-        do Freq = -5,5
+    do l = -1, 4
+        do m = 1,15
             !! Initialize random seed and select a random index!!
             call random_seed()
             ! call random_number(random_num)
@@ -72,6 +73,10 @@ program maketruedata_binary
             ! print *, "Random initial condition (x1):", x1_true
             ! print *, "Random index:", random_index
 
+            Ampli= 2.**l
+            Period= 2.* m * dble(ADAY)
+            Freq = 1./Period
+
 
             ! Time integration !
             t = 0.0d0
@@ -80,7 +85,7 @@ program maketruedata_binary
             do n = 1, n_timesteps
 
                 ! Runge-Kutta 4th order integration step
-                call RK4(t, x1_true, dt, dble(2.0)**Ampli, dble(2.0)**Freq)
+                call RK4(t, x1_true, dt,Ampli,Freq)
 
                 ! Update time
                 t = t + dt
@@ -149,6 +154,7 @@ contains
     end subroutine RK4
 
     ! Model for x1
+    ! A: Amplitude, B: Frequency
     subroutine model_nature_1(t, X1, model, A, B)
         real(8), intent(in) :: t, X1(kmax)
         real(8), intent(out) :: model(kmax)
@@ -157,7 +163,7 @@ contains
 
         do k = 1, kmax
             model(k) = X1(modulo(k - 2, kmax) + 1) * (X1(modulo(k, kmax) + 1) - X1(modulo(k - 3, kmax) + 1))  &
-                       - X1(k) + F_ex + A * sin(2.0d0 * PI * B * t)
+                       - X1(k) + F_ex + A * sin(2.0d0* PI* B * t)
         end do
     end subroutine model_nature_1
 
