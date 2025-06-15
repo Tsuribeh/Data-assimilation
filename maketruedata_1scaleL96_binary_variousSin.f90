@@ -51,10 +51,10 @@ program maketruedata_binary
     open(iunit_x1t, file="1scalePlusSinVarious_xtrue_timeseries_km40_F8_50span.bin", &
     & form='unformatted', access='stream', status="replace")
 
-    open(iunit_t, file="1scalePlusSinVarious_t_truedata_fort_50span.bin", form='unformatted', access='stream', status="replace")
+    open(iunit_t, file="1scalePlusSinVarious_t_truedata_fort_50span_short.bin", form='unformatted', access='stream', status="replace")
 
-    do l = -1, 4
-        do m = 1,15
+    do l = 0, 3
+        do m = 1,21
             !! Initialize random seed and select a random index!!
             call random_seed()
             ! call random_number(random_num)
@@ -74,7 +74,7 @@ program maketruedata_binary
             ! print *, "Random index:", random_index
 
             Ampli= 2.**l
-            Period= 2.* m * dble(ADAY)
+            Period= 0.25* m * dble(ADAY)
             Freq = 1./Period
 
 
