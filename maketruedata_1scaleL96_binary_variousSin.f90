@@ -48,13 +48,13 @@ program maketruedata_binary
     !     stop
     ! end if
 
-    open(iunit_x1t, file="1scalePlusSinVarious_xtrue_timeseries_km40_F8_50span.bin", &
+    open(iunit_x1t, file="1scalePlusSinVarious_xtrue_timeseries_km40_F8_50span_short.bin", &
     & form='unformatted', access='stream', status="replace")
 
-    open(iunit_t, file="1scalePlusSinVarious_t_truedata_fort_50span_short.bin", form='unformatted', access='stream', status="replace")
+    open(iunit_t, file="1scalePlusSinVarious_t_truedata_fort_50span.bin", form='unformatted', access='stream', status="replace")
 
     do l = 0, 3
-        do m = 1,21
+        do m = 1,28
             !! Initialize random seed and select a random index!!
             call random_seed()
             ! call random_number(random_num)
